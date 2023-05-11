@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Bài toán Quản Lý Sinh Viên sử dụng Mảng trong JS</title>
+<style>
+  body {
+    font-size: 18px;
+    width: 50%;
+  }
+
+  td {
+    text-align: left;
+  }
+
+  #box { border-radius: 7px;
+    width: 450px; height: 100px;
+    background-color:lightgrey}
+
+  #input_add {
+    text-align: left;
+    border: 2px solid darkgray;
+    border-radius: 5px;
+    margin-top: 30px;
+    margin-left: 18px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+
+  }
+  #add {
+    border: 2px solid darkgray;
+    border-radius: 5px;
+    background-color: limegreen;
+    color: white;
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
+  .vien {
+    border: 2px solid darkgray;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  ::placeholder {
+    text-align: left;
+    text-indent: hanging;
+  }
+
+</style>
+</head>
+<body>
+<b id="validate" style="color: red; text-align: center"></b>
+<h3 style="text-align: left; margin-top: 50px">Add New Product </h3>
+    <div id="box">
+  <form style="text-align: left">
+   <input id="input_add" type="text" value=""size="50px"  placeholder="New Product"
+         style="margin-bottom: 2px"/>
+   <input id="add" type="button" value="Add" size="15px"  onclick="addProduct()"/><br>
+
+    </div>
+<h3 style="text-align: left">Display All Product </h3>
+</form>
+
+<table  width="100%" style="text-align: left">
+  <tr>
+    <th>Product Name</th>
+    <th>Edit</th>
+    <th>Delete</th>
+
+  </tr>
+  <tbody id="drawTable"></tbody>
+
+</table>
+
+</body>
+<script>
+  // 1. Tạo bảng
+  let arrProducts = []
+
+  function showListProduct() {
+    let drawTable = '';
+    for (let i = 0; i < arrProducts.length; i++) {
+      drawTable += `<tr>
+                        <td>${arrProducts[i]}</td>
+                        <td><button class="vien" style="border-radius: 10%; background-color: limegreen; color: white" onclick="updateProduct(${i})">Edit</button></td>
+                        <td><button class="vien" style="border-radius: 10%; background-color: limegreen; color: white" onclick="deleteProduct(${i})">Delete</button></td>
+
+                    </tr>`
+
+    }
+    console.log(drawTable);
+    document.getElementById('drawTable').innerHTML = drawTable;
+  }
+  showListProduct();
+
+  // 2. Xây dựng chức năng thêm mới createProduct() (C-CRUD)_create
+  function addProduct() {
+    let newProduct = document.getElementById('input_add').value;
+    if (newProduct.trim() === '') {
+      document.getElementById('validate').innerHTML = '<b style= "color: rosybrown">Sản phẩm không tồn tại</b>'
+      return;
+    }
+    arrProducts.push(newProduct);
+    document.getElementById('input_add').value =''
+    document.getElementById('validate').innerHTML = '<b style= "color: blue">Đã thêm sản phẩm mới</b>'
+    showListProduct();
+
+  }
+  // 3. Xây dựng chức nặng sửa updateProduct() (U-CRUD)_Update
+  function updateProduct(index) {
+    let editProduct = prompt('Enter the name to update: ', arrProducts[index])
+    if (editProduct === null) {
+      document.getElementById('validate').innerHTML = '<b style= "color: red">Không hợp lệ</b>';
+      return;
+    } else if (editProduct.trim() === '') {
+      document.getElementById('validate').innerHTML = '<b style= "color: red">Nhập lại</b>';
+      return;
+    }
+    arrProducts[index] = editProduct;
+    document.getElementById('validate').innerHTML = '<b style= "color: red">Chỉnh sửa thành công</b>';
+    showListProduct();
+  }
+  // 4. Xây dựng chức năng xóa D-CRUD_Delete
+  function deleteProduct(index) {
+    if(confirm("Bạn có chắc chắn muốn xóa? Yes --> OK or No -->Cancel")){
+      arrProducts.splice(index,1);
+      document.getElementById('validate').innerHTML = '<b style="color: red">Đã xóa sản phẩm</b>'
+      showListProduct();
+    }
+
+  }
+
+  console.log('hello webstorm')
+</script>
+
+</html>
